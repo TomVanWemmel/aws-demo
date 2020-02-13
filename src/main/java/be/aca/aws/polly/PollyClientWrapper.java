@@ -60,7 +60,7 @@ public class PollyClientWrapper {
 				SynthesizeSpeechRequest.builder()
 						.text(text)
 						.voiceId(voice.id())
-						.engine(Engine.NEURAL)
+						.engine(Engine.STANDARD)
 						.outputFormat(OutputFormat.MP3)
 						.build();
 		return polly.synthesizeSpeech(synthReq);
