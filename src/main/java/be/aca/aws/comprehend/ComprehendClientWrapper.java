@@ -43,7 +43,9 @@ public class ComprehendClientWrapper {
 				.build();
 		DetectDominantLanguageResponse response = comprehend.detectDominantLanguage(build);
 
-		String dominantLanguage = response.languages().stream().max(Comparator.comparing(DominantLanguage::score)).map(DominantLanguage::languageCode).orElseThrow();
+		String dominantLanguage = response.languages()
+				.stream().max(Comparator.comparing(DominantLanguage::score))
+				.map(DominantLanguage::languageCode).orElseThrow();
 
 		return Locale.forLanguageTag(dominantLanguage);
 	}
