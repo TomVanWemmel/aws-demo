@@ -8,7 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.regions.providers.DefaultAwsRegionProviderChain;
 import software.amazon.awssdk.services.lexruntime.LexRuntimeClient;
 import software.amazon.awssdk.services.lexruntime.model.DialogState;
 import software.amazon.awssdk.services.lexruntime.model.MessageFormatType;

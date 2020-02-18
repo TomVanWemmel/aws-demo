@@ -1,6 +1,9 @@
 package be.aca.aws.transcribe;
 
+import java.util.function.Predicate;
+
 import software.amazon.awssdk.core.async.SdkPublisher;
+import software.amazon.awssdk.services.transcribestreaming.model.Result;
 import software.amazon.awssdk.services.transcribestreaming.model.StartStreamTranscriptionResponse;
 import software.amazon.awssdk.services.transcribestreaming.model.StartStreamTranscriptionResponseHandler;
 import software.amazon.awssdk.services.transcribestreaming.model.Transcript;
@@ -20,9 +23,13 @@ public class TranscriptionResponseHandler implements StartStreamTranscriptionRes
 		publisher.subscribe(event -> {
 			final Transcript transcript = ((TranscriptEvent) event).transcript();
 
-			//TODO Filter out the information
+			transcript.results()
+					.stream()
+					.filter(Predicate.not(Result::isPartial))
+					.forEach(r -> r.alternatives().stream()
+							.findFirst()
+							.ifPresent(a -> System.out.println(a.transcript())));
 
-			System.out.println(transcript.toString());
 		});
 	}
 
