@@ -7,7 +7,7 @@ import be.aca.aws.transcribe.TranscribeStreamingClientWrapper;
 
 public class TranscriptionDemo {
 	public static void main(String args[]) {
-		TranscribeStreamingClientWrapper client = new TranscribeStreamingClientWrapper();
+		TranscribeStreamingClientWrapper client = new TranscribeStreamingClientWrapper(System.out::println);
 
 		Runtime.getRuntime().addShutdownHook(new Thread(client::stopTranscription));
 

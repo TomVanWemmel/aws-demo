@@ -19,6 +19,7 @@ package be.aca.aws.transcribe;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.providers.DefaultAwsRegionProviderChain;
@@ -34,9 +35,11 @@ public class TranscribeStreamingClientWrapper {
 
 	private TranscribeStreamingAsyncClient client;
 	private AudioStreamPublisher requestStream;
+	private final Consumer<String> transcriptionConsumer;
 
-	public TranscribeStreamingClientWrapper() {
-		client = createClient();
+	public TranscribeStreamingClientWrapper(Consumer<String> transcriptionConsumer) {
+		this.transcriptionConsumer = transcriptionConsumer;
+		this.client = createClient();
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class TranscribeStreamingClientWrapper {
 		return client.startStreamTranscription(
 				getRequest(Microphone.SAMPLE_RATE),
 				requestStream,
-				new TranscriptionResponseHandler());
+				new TranscriptionResponseHandler(transcriptionConsumer));
 
 	}
 
